@@ -62,8 +62,19 @@ int main(int argc, char** argv){
 			cin >> column;
 			cout << endl << "Indique a linha desejada (1-15): " ;
 			cin >> line;
-			//Reservar
 			
+			if((column > 40 || column < 1) || (line > 15 || line < 1)){
+				do{
+					cout << endl << "Insira um número válido para coluna e linha." << endl;
+					
+	   	   	   	   	cout << endl << "Indique a coluna desejada (1 - 40): " ;
+					cin >> column;
+					cout << endl << "Indique a linha desejada (1-15): " ;
+					cin >> line;
+				} while((column > 40 || column < 1) || (line > 15 || line < 1));
+			}
+			
+			//Reservar
 			if(column == 0 || line == 0){
 				cout << endl << "Insira um valor diferente de 0 para linha e coluna." << endl << endl;
 			} else if(chairs[line][column] == '#'){
