@@ -5,16 +5,21 @@
 #include <iomanip>
 using namespace std;
 
-#define LIN 16
-#define COL 41
+#define LIN 15
+#define COL 40
 
-
-void menu(){
+//função menu retornando valor da escolha
+int menu(){
+	int key;
 	
 	cout << "0.      Finalizar"         << endl 
 		 << "1.      Reservar poltrona" << endl 
 		 << "2.      Mapa de ocupação"  << endl 
 		 << "3.      Faturamento" 		<< endl << endl;
+
+ 	 cin >> key;
+ 	 
+ 	 return key;
 }
 
 
@@ -39,20 +44,14 @@ int main(int argc, char** argv){
 		 
 	for(int i = 0; i < LIN; ++i){
 		for(int j = 0; j < COL; ++j){
-			if(i == 0 || j == 0){
-				chairs[i][j] = 'X';
-			} else chairs[i][j] = '.';
+			chairs[i][j] = '.';
 		}
 	}
 	
+	key = menu(); //armazenar a função na variável
 
-
-	
-	menu();
-	cin >> key;
-	do {
+	while(key != 0) {
 		switch (key){
-			
 		case 0:
 			cout << endl << "Finalizado";
 			break;
@@ -63,47 +62,45 @@ int main(int argc, char** argv){
 			cout << endl << "Indique a linha desejada (1-15): " ;
 			cin >> line;
 			
-			if((column > 40 || column < 1) || (line > 15 || line < 1)){
-				do{
-					cout << endl << "Insira um número válido para coluna e linha." << endl;
-					
-	   	   	   	   	cout << endl << "Indique a coluna desejada (1 - 40): " ;
-					cin >> column;
-					cout << endl << "Indique a linha desejada (1-15): " ;
-					cin >> line;
-				} while((column > 40 || column < 1) || (line > 15 || line < 1));
+			//ajustar a escolha do número ao index do array (a partir de 0)
+			column -= 1;
+			line -= 1;
+			
+			while((column > 40 - 1 || column < 1 - 1) || (line > 15 - 1 || line < 1 - 1)){
+				cout << endl << "Insira um número válido para coluna e linha." << endl;
+	   	   	   	cout << endl << "Indique a coluna desejada (1 - 40): " ;
+				cin >> column;
+				cout << endl << "Indique a linha desejada (1-15): " ;
+				cin >> line;
 			}
 			
 			//Reservar
-			if(column == 0 || line == 0){
-				cout << endl << "Insira um valor diferente de 0 para linha e coluna." << endl << endl;
-			} else if(chairs[line][column] == '#'){
-				cout << endl << "A cadeira " << line << " - " <<column << " já está ocupada, tente outra." << endl << endl;
+			if(chairs[line][column] == '#'){
+				cout << endl << "A cadeira " << line + 1 << " - " << column + 1 
+					 << " já está ocupada, tente outra." << endl << endl;
 			} else{
-				cout << endl << "A cadeira " << line << " - " <<column << " foi reservada." << endl << endl;
+				cout << endl << "A cadeira " << line + 1 << " - " << column + 1 
+					 << " foi reservada." << endl << endl;
 	   	   	   	chairs[line][column] = '#';
 			}
 
 
 			//menu
-			menu();	
-			cin >> key;
-			
+			key = menu();
 			break;
 		
 		case 2:
 			for(int i = 0; i < LIN; ++i){
 				for(int j = 0; j < COL; ++j){
 					cout << chairs[i][j] << "|";
-					if(j == 40){
+					if(j == 40 - 1){
 						cout << endl;
 					}
 				}
 			}
 			
 			//menu
-			menu();	
-			cin >> key;
+			key = menu();
 			break;
 		
 		case 3:
@@ -129,21 +126,17 @@ int main(int argc, char** argv){
 						} else if (i >= 6 && i <= 10){
 							val += 30;
 						} else val += 15;
-						}
+					}
 				}
 			}
 
 			cout << endl << "Valor da bilheteria: " << val << endl << endl;
 			
 	   	   	//menu
-			menu();	
-			cin >> key;
+			key = menu();
 			break;
+		}
 	}
-
-	} while(key != 0);
-	
-	 
 		 
 	return 0;
 }
